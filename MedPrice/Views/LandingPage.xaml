@@ -11,39 +11,69 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Padding="20">
-            <!-- Define 5 equal-width columns -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <!-- Define 3 equal-width columns -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <!-- Row Definitions -->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <!-- Row Definitions -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
 
-            <!-- First input and button -->
-            <TextBox Grid.Row="0" Grid.Column="0" x:Name="InputField1" PlaceholderText="Enter first value" Margin="0,0,10,10"/>
-            <Button Grid.Row="0" Grid.Column="1" Content="Submit 1" Click="OnSubmit1_Click" Margin="0,0,10,10"/>
+        <!-- First input and button -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top">
+            <TextBlock Text="Præperat:" Margin="0,0,10,10"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="InputField1" Grid.Column="0" PlaceholderText="Enter first value" Margin="0,0,10,10" Width="NaN" HorizontalContentAlignment="Stretch"/>
+                <Button  Content="Find præperat" Grid.Column="1" Click="PræperatNavn_Click" Margin="0,0,10,10" HorizontalAlignment="Stretch"/>
+            </Grid>
+        </StackPanel>
 
-            <!-- Second input and button -->
-            <TextBox Grid.Row="1" Grid.Column="0" x:Name="InputField2" PlaceholderText="Enter second value" Margin="0,0,10,10"/>
-            <Button Grid.Row="1" Grid.Column="1" Content="Submit 2" Click="OnSubmit2_Click" Margin="0,0,10,10"/>
+        <!-- Second input and button -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
+            <TextBlock Text="Aktivt stof:" Margin="0,0,10,10"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="InputField2" Grid.Column="0" PlaceholderText="Enter second value" Margin="0,0,10,10"/>
+                <Button Content="Find præperater" Grid.Column="1" Click="AktivtStof_Click" Margin="0,0,10,10" HorizontalAlignment="Stretch"/>
+            </Grid>
+        </StackPanel>
+        <!-- Placeholder ListView in column 2  -->
+        <ListView Grid.Row="1" Grid.Column="2" Grid.RowSpan="1" x:Name="ItemList" ItemsSource="{Binding Drugs}"
+            VerticalAlignment="Stretch"
+            Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="2"
+            CornerRadius="{StaticResource OverlayCornerRadius}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Navn}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
-            <!-- Placeholder ListView in column 5 -->
-        <ListView Grid.Row="0" Grid.Column="4" Grid.RowSpan="2" x:Name="ItemList"
-          Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
-          BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-          BorderThickness="1"
-          CornerRadius="{StaticResource OverlayCornerRadius}">
-            <ListView.Items>
-                <TextBlock Text="Example 2: This is a placeholder string." />
-                <TextBlock Text="Example 5: This is a placeholder string." />
-                </ListView.Items>
-            </ListView>
+        <ItemsView ItemsSource="{Binding drugListModel.Drugs}"
+                   Grid.Row="1" Grid.Column="2" Grid.RowSpan="1"
+                   x:Name="DrugListView"
+                   VerticalAlignment="Stretch"
+                   Background="{ThemeResource SystemChromeBlackLowColor}"
+                   BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                   BorderThickness="2"
+                   CornerRadius="{StaticResource OverlayCornerRadius}"/>
+        <ItemsView/>
     </Grid>
-    </Page>
+
+</Page>

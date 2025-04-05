@@ -12,6 +12,8 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using MedPrice.Models;
+using System.Diagnostics;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -23,22 +25,29 @@ namespace MedPrice.Views
     /// </summary>
     public sealed partial class LandingPage : Page
     {
+        private DrugList drugListModel = new DrugList();
         public LandingPage()
         {
             this.InitializeComponent();
+            this.DataContext = (new DrugList());
+            
         }
 
-        private void OnSubmit1_Click(object sender, RoutedEventArgs e)
+        private void PræperatNavn_Click(object sender, RoutedEventArgs e)
         {
+            Debug.WriteLine("Trykket");
             var input1 = InputField1.Text;
             // handle input1
         }
 
-        private void OnSubmit2_Click(object sender, RoutedEventArgs e)
+        private async void AktivtStof_Click(object sender, RoutedEventArgs e)
         {
-            var input2 = InputField2.Text;
-            // handle input2
+            Debug.WriteLine("Button Pressed!");
+            var aktivtStof = InputField2.Text;
+            Debug.WriteLine(aktivtStof);
+            await DrugList.getDrugs(aktivtStof);
         }
 
+        
     }
 }
