@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="MedPrice.Views.ActiveIngredientResultPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MedPrice.Views"
+    xmlns:models="using:MedPrice.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <DataTemplate x:Key="NoteItemTemplate" 
+              x:DataType="models:DrugList">
+            <ItemContainer>
+                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderThickness="1" 
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    CornerRadius="{StaticResource OverlayCornerRadius}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="DrugInfoHere" Margin="4"
+                       TextWrapping="Wrap"
+                       TextTrimming="WordEllipsis"/>
+                    <Border Grid.Row="1" Padding="4,6,0,6"
+                        Background="{ThemeResource ControlAltFillColorSecondaryBrush}">
+                        <TextBlock Text="DateBindHere"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                    </Border>
+                </Grid>
+            </ItemContainer>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+
+    </Grid>
+</Page>

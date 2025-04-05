@@ -16,28 +16,29 @@ using Windows.Foundation.Collections;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace MedPrice
+namespace MedPrice.Views
 {
     /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainWindow : Window
+    public sealed partial class LandingPage : Page
     {
-        public MainWindow()
+        public LandingPage()
         {
             this.InitializeComponent();
-            // Hide the default system title bar.
-            ExtendsContentIntoTitleBar = true;
-            // Replace system title bar with the WinUI TitleBar.
-            SetTitleBar(MedPrice);
         }
 
-        private void MedPrice_BackRequested(TitleBar sender, object args)
+        private void OnSubmit1_Click(object sender, RoutedEventArgs e)
         {
-            if (rootFrame.CanGoBack)
-            {
-                rootFrame.GoBack();
-            }
+            var input1 = InputField1.Text;
+            // handle input1
         }
+
+        private void OnSubmit2_Click(object sender, RoutedEventArgs e)
+        {
+            var input2 = InputField2.Text;
+            // handle input2
+        }
+
     }
 }
