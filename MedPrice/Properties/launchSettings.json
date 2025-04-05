@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MedPrice (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MedPrice (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
