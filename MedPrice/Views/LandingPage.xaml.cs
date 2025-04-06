@@ -20,18 +20,16 @@ using System.Diagnostics;
 
 namespace MedPrice.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+    
     public sealed partial class LandingPage : Page
     {
-        private DrugList drugListModel = new DrugList();
+        public DrugList drugListModel = new DrugList();
 
         public LandingPage()
         {
             this.InitializeComponent();
-            this.DataContext = (new DrugList());
-            
+            this.DataContext = drugListModel;
+
         }
 
         private void PræperatNavn_Click(object sender, RoutedEventArgs e)
@@ -42,15 +40,19 @@ namespace MedPrice.Views
         private async void AktivtStof_Click(object sender, RoutedEventArgs e)
         {
             var aktivtStof = InputField2.Text;
-            await DrugList.getDrugs(aktivtStof);
+            await drugListModel.getDrugs(aktivtStof);
         }
 
-        private void ItemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ItemList_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
         {
-            Debug.WriteLine("SelectedChange " + e.AddedItems.LastOrDefault());
-            Drug? selected = e.AddedItems.LastOrDefault(new Drug("", "", "", "", "", "")) as Drug;
-            DrugList.SelectedDrug = selected;
-            
+            var selectedItem = args.InvokedItem as Drug;
+            Debug.WriteLine(selectedItem);
+            if (selectedItem != null)
+            {
+                // Do something with the selected drug
+                Debug.WriteLine(selectedItem.NavnStyrkeDisplayText);
+                drugListModel.SelectedDrug = selectedItem as Drug;
+            }
         }
     }
 }

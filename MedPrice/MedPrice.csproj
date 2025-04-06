@@ -13,8 +13,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Views\ActiveIngredientResultPage.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Views\ActiveIngredientResultPage.xaml" />
     <None Remove="Views\LandingPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Remove="Views\ActiveIngredientResultPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,11 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\LandingPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\ActiveIngredientResultPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

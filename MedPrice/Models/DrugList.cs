@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -11,21 +12,36 @@ using System.Xml.Linq;
 
 namespace MedPrice.Models
 {
-    public class DrugList
+    public class DrugList : INotifyPropertyChanged
     {
         private static readonly HttpClient client = new HttpClient();
         private static readonly string baseUrlHead = "http://api.medicinpriser.dk/v1/produkter/virksomtstof/";
         private static readonly string baseUrlTail = "?format=xml";
-        public static ObservableCollection<Drug> Drugs { get; set; } = new ObservableCollection<Drug>();
-        public static Drug SelectedDrug { get; set; } = new Drug("", "", "", "", "", "");
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private Drug _selectedDrug;
+        public ObservableCollection<Drug> Drugs { get; set; } = new ObservableCollection<Drug>();
+        public Drug SelectedDrug
+        {
+            get { return _selectedDrug; }
+            set
+            {
+                if (_selectedDrug != value)
+                {
+                    _selectedDrug = value;
+                    OnPropertyChanged(nameof(SelectedDrug));  // Notify change
+                }
+            }
+        }
 
         public DrugList() 
         {
             Drugs = new ObservableCollection<Drug>();
+            _selectedDrug = new Drug("","","","","","");
         }
 
         
-        public static async Task getDrugs(string apiUrl)
+        public async Task getDrugs(string apiUrl)
         {
             try
             {
@@ -61,6 +77,10 @@ namespace MedPrice.Models
 
         }
 
-
+        
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
