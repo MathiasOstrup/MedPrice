@@ -26,6 +26,7 @@ namespace MedPrice.Views
     public sealed partial class LandingPage : Page
     {
         private DrugList drugListModel = new DrugList();
+
         public LandingPage()
         {
             this.InitializeComponent();
@@ -35,19 +36,21 @@ namespace MedPrice.Views
 
         private void PræperatNavn_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Trykket");
-            var input1 = InputField1.Text;
-            // handle input1
+            //var input1 = InputField1.Text;
         }
 
         private async void AktivtStof_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Button Pressed!");
             var aktivtStof = InputField2.Text;
-            Debug.WriteLine(aktivtStof);
             await DrugList.getDrugs(aktivtStof);
         }
 
-        
+        private void ItemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Debug.WriteLine("SelectedChange " + e.AddedItems.LastOrDefault());
+            Drug? selected = e.AddedItems.LastOrDefault(new Drug("", "", "", "", "", "")) as Drug;
+            DrugList.SelectedDrug = selected;
+            
+        }
     }
 }

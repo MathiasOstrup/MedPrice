@@ -17,6 +17,7 @@ namespace MedPrice.Models
         private static readonly string baseUrlHead = "http://api.medicinpriser.dk/v1/produkter/virksomtstof/";
         private static readonly string baseUrlTail = "?format=xml";
         public static ObservableCollection<Drug> Drugs { get; set; } = new ObservableCollection<Drug>();
+        public static Drug SelectedDrug { get; set; } = new Drug("", "", "", "", "", "");
 
         public DrugList() 
         {
@@ -29,7 +30,6 @@ namespace MedPrice.Models
             try
             {
                 string fullUrl = baseUrlHead + apiUrl + baseUrlTail;
-                Debug.WriteLine(fullUrl);
                 HttpResponseMessage response = await client.GetAsync(fullUrl);
                 response.EnsureSuccessStatusCode();
 
@@ -41,7 +41,7 @@ namespace MedPrice.Models
                 var produktItems = apiResponse.Descendants("Produkt")
                                       .Select(x => new Drug(
                                           x.Element("Navn")?.Value,
-                                          int.TryParse(x.Element("Varenummer")?.Value, out var varenummer) ? varenummer : 0,
+                                          x.Element("Varenummer")?.Value,
                                           x.Element("Firma")?.Value,
                                           x.Element("Styrke")?.Value,
                                           x.Element("DetaljerUrl")?.Value,
@@ -49,7 +49,6 @@ namespace MedPrice.Models
                                       )).ToList();
                 foreach (var drug in produktItems)
                 {
-                    Debug.WriteLine(drug.Navn);
                     Drugs.Add(drug);
                 }
                 
@@ -61,5 +60,7 @@ namespace MedPrice.Models
             }
 
         }
+
+
     }
 }

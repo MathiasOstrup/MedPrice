@@ -26,7 +26,8 @@
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
 
-        <!-- First input and button -->
+        <!-- Excess Input not needed-->
+        <!--
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top">
             <TextBlock Text="Præperat:" Margin="0,0,10,10"/>
             <Grid>
@@ -37,10 +38,10 @@
                 <TextBox x:Name="InputField1" Grid.Column="0" PlaceholderText="Enter first value" Margin="0,0,10,10" Width="NaN" HorizontalContentAlignment="Stretch"/>
                 <Button  Content="Find præperat" Grid.Column="1" Click="PræperatNavn_Click" Margin="0,0,10,10" HorizontalAlignment="Stretch"/>
             </Grid>
-        </StackPanel>
+        </StackPanel>-->
 
-        <!-- Second input and button -->
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center">
+        <!-- input and button -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top">
             <TextBlock Text="Aktivt stof:" Margin="0,0,10,10"/>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -51,8 +52,10 @@
                 <Button Content="Find præperater" Grid.Column="1" Click="AktivtStof_Click" Margin="0,0,10,10" HorizontalAlignment="Stretch"/>
             </Grid>
         </StackPanel>
+
         <!-- Placeholder ListView in column 2  -->
-        <ListView Grid.Row="1" Grid.Column="2" Grid.RowSpan="1" x:Name="ItemList" ItemsSource="{Binding Drugs}"
+        <ListView Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" x:Name="ItemList" ItemsSource="{Binding Drugs}"
+            SelectionChanged="ItemList_SelectionChanged"
             VerticalAlignment="Stretch"
             Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -60,20 +63,25 @@
             CornerRadius="{StaticResource OverlayCornerRadius}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Navn}" />
+                    <StackPanel>
+                        <TextBlock Text="{Binding NavnStyrkeDisplayText}"/>
+                        <TextBlock Text="{Binding FirmaVarenummerDisplayText}"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <ItemsView ItemsSource="{Binding drugListModel.Drugs}"
-                   Grid.Row="1" Grid.Column="2" Grid.RowSpan="1"
-                   x:Name="DrugListView"
-                   VerticalAlignment="Stretch"
-                   Background="{ThemeResource SystemChromeBlackLowColor}"
-                   BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                   BorderThickness="2"
-                   CornerRadius="{StaticResource OverlayCornerRadius}"/>
-        <ItemsView/>
+        <ListView Grid.Row="1" Grid.Column="2" Grid.RowSpan="1" x:Name="Details" ItemsSource="{Binding SelectedDrug}"
+                  SelectionChanged="ItemList_SelectionChanged"
+                  VerticalAlignment="Stretch"
+                  Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                  BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                  BorderThickness="2"
+                  CornerRadius="{StaticResource OverlayCornerRadius}">
+                      <TextBlock Text="{Binding SelectedDrug}"/>
+        </ListView>
+        
+
     </Grid>
 
 </Page>
