@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MedPrice.Models
+﻿namespace MedPrice.Models
 {
     public class Drug
     {
@@ -17,7 +11,6 @@ namespace MedPrice.Models
         public string NavnStyrkeDisplayText { get; set; }
         public string FirmaVarenummerDisplayText { get; set; }
 
-        // Constructor that accepts parameters for all properties
         public Drug(string navn, string varenummer, string firma, string styrke, string detaljerUrl, string pakning)
         {
             Navn = navn;

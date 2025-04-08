@@ -11,14 +11,12 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Padding="20">
-        <!-- Define 3 equal-width columns -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Row Definitions -->
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*" />
             <RowDefinition Height="2*" />
@@ -27,7 +25,7 @@
         </Grid.RowDefinitions>
 
 
-        <!-- input and button -->
+        <!-- Descriptor, input and button elements-->
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top">
             <TextBlock Text="Aktivt stof:" Margin="0,0,10,10"/>
             <Grid>
@@ -40,7 +38,7 @@
             </Grid>
         </StackPanel>
 
-        <!-- Placeholder ListView in column 2  -->
+        <!-- ItemsView of pharmaceuticals  -->
         <ItemsView Grid.Row="1" Grid.Column="1" Grid.RowSpan="1" 
            ItemsSource="{Binding Drugs}"
            SelectionMode="None"
@@ -59,8 +57,8 @@
             </ItemsView.Layout>
         </ItemsView>
 
+        <!-- SubGrid definitions to hold details on selected pharmaceutical -->
         <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="1">
-            <!-- Define the grid rows and columns -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -71,41 +69,38 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- First Pair (Navn and Navn TextBox) -->
+            <!-- RegionContains: Text elements showing information on selected pharmaceutical -->
+            <!--#region -->
             <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
                 <TextBlock Text="Navn" VerticalAlignment="Center" />
                 <TextBox Text="{Binding SelectedDrug.Navn}" VerticalAlignment="Center" />
             </StackPanel>
 
-            <!-- Second Pair (Varenummer and Varenummer TextBox) -->
             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical">
                 <TextBlock Text="Varenummer" VerticalAlignment="Center" />
                 <TextBox Text="{Binding SelectedDrug.Varenummer}" VerticalAlignment="Center" />
             </StackPanel>
 
-            <!-- Third Pair (Firma and Firma TextBox) -->
             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical">
                 <TextBlock Text="Firma" VerticalAlignment="Center" />
                 <TextBox Text="{Binding SelectedDrug.Firma}" VerticalAlignment="Center" />
             </StackPanel>
 
-            <!-- Fourth Pair (Styrke and Styrke TextBox) -->
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
                 <TextBlock Text="Styrke" VerticalAlignment="Center" />
                 <TextBox Text="{Binding SelectedDrug.Styrke}" VerticalAlignment="Center" />
             </StackPanel>
 
-            <!-- Fifth Pair (DetaljerUrl and DetaljerUrl TextBox) -->
             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
                 <TextBlock Text="DetaljerUrl" VerticalAlignment="Center" />
                 <TextBox Text="{Binding SelectedDrug.DetaljerUrl}" VerticalAlignment="Center" />
             </StackPanel>
 
-            <!-- Sixth Pair (Pakning and Pakning TextBox) -->
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical">
                 <TextBlock Text="Pakning" VerticalAlignment="Center" />
                 <TextBox Text="{Binding SelectedDrug.Pakning}" VerticalAlignment="Center" />
             </StackPanel>
+            <!--#endregion-->
         </Grid>
 
 

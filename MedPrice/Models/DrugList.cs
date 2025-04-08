@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace MedPrice.Models
@@ -29,7 +26,7 @@ namespace MedPrice.Models
                 if (_selectedDrug != value)
                 {
                     _selectedDrug = value;
-                    OnPropertyChanged(nameof(SelectedDrug));  // Notify change
+                    OnPropertyChanged(nameof(SelectedDrug));  // Calls onPropertyChanged method each time value changes
                 }
             }
         }
@@ -52,7 +49,7 @@ namespace MedPrice.Models
                 string responseData = await response.Content.ReadAsStringAsync();
                 XDocument apiResponse = XDocument.Parse(responseData);
 
-                Drugs.Clear();
+                Drugs.Clear(); // Empties the list so old results arent shown
 
                 var produktItems = apiResponse.Descendants("Produkt")
                                       .Select(x => new Drug(
@@ -60,7 +57,7 @@ namespace MedPrice.Models
                                           x.Element("Varenummer")?.Value,
                                           x.Element("Firma")?.Value,
                                           x.Element("Styrke")?.Value,
-                                          x.Element("DetaljerUrl")?.Value,
+                                          x.Element("Detaljer")?.Value,
                                           x.Element("Pakning")?.Value
                                       )).ToList();
                 foreach (var drug in produktItems)
