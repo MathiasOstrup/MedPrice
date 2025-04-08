@@ -17,24 +17,21 @@ namespace MedPrice.Views
         {
             InitializeComponent();
             DataContext = drugListModel;
-
         }
 
         private async void AktivtStof_Click(object sender, RoutedEventArgs e)
         {
             var aktivtStof = InputField2.Text;
-            await drugListModel.getDrugs(aktivtStof);
+            await drugListModel.GetDrugs(aktivtStof);
         }
 
-        private void ItemList_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
+        private async void ItemList_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
         {
             var selectedItem = args.InvokedItem as Drug;
-            Debug.WriteLine(selectedItem);
             if (selectedItem != null)
             {
-                // Do something with the selected drug
-                Debug.WriteLine(selectedItem.NavnStyrkeDisplayText);
                 drugListModel.SelectedDrug = selectedItem as Drug;
+                await drugListModel.GetSelectedDrugDetails();
             }
         }
     }
