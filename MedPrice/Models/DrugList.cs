@@ -2,17 +2,20 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+
 
 namespace MedPrice.Models
 {
     public class DrugList : INotifyPropertyChanged
     {
         private static readonly HttpClient client = new HttpClient();
-        private static readonly string baseUrlHead = "http://api.medicinpriser.dk/v1/produkter/virksomtstof/";
+        private static readonly string baseUrlHead = "http://api.medicinpriser.dk";
         private static readonly string baseUrlTail = "?format=xml";
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -38,19 +41,19 @@ namespace MedPrice.Models
         }
 
         
-        public async Task getDrugs(string apiUrl)
+        public async Task GetDrugs(string apiUrl)
         {
             try
             {
-                string fullUrl = baseUrlHead + apiUrl + baseUrlTail;
+                string fullUrl = baseUrlHead + "/v1/produkter/virksomtstof/" + apiUrl + baseUrlTail;
                 HttpResponseMessage response = await client.GetAsync(fullUrl);
+                Debug.WriteLine(response.StatusCode);
                 response.EnsureSuccessStatusCode();
 
                 string responseData = await response.Content.ReadAsStringAsync();
                 XDocument apiResponse = XDocument.Parse(responseData);
 
                 Drugs.Clear(); // Empties the list so old results arent shown
-
                 var produktItems = apiResponse.Descendants("Produkt")
                                       .Select(x => new Drug(
                                           x.Element("Navn")?.Value,
@@ -71,10 +74,37 @@ namespace MedPrice.Models
                 Debug.WriteLine($"Error calling API: {ex.Message}");
                 Drugs = new ObservableCollection<Drug>();
             }
+            
 
         }
 
-        
+        public async Task GetSelectedDrugDetails()
+        {
+            try
+            {
+                string fullUrl = baseUrlHead + SelectedDrug.DetaljerUrl + baseUrlTail;
+                HttpResponseMessage response = await client.GetAsync(fullUrl);
+                response.EnsureSuccessStatusCode();
+
+                string responseData = await response.Content.ReadAsStringAsync();
+                XElement apiResponse = XDocument.Parse(responseData).Element("ProduktDetaljer");
+
+                string preParsePrisPrPakning = apiResponse.Element("PrisPrPakning")?.Value;
+                string preParsePrisPrEnhed = apiResponse.Element("PrisPrEnhed")?.Value;
+
+                _selectedDrug.PrisPrPakning = string.IsNullOrEmpty(preParsePrisPrPakning) ? Decimal.MinusOne : Decimal.Parse(preParsePrisPrPakning, CultureInfo.InvariantCulture);
+                _selectedDrug.PrisPrEnhed = string.IsNullOrEmpty(preParsePrisPrEnhed) ? Decimal.MinusOne : Decimal.Parse(preParsePrisPrEnhed, CultureInfo.InvariantCulture);
+
+
+                OnPropertyChanged(string.Empty);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error calling API: {ex.Message}");
+                
+
+            }
+        }
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

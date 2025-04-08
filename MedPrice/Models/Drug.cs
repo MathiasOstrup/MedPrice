@@ -10,6 +10,8 @@
         public string Pakning { get; set; }
         public string NavnStyrkeDisplayText { get; set; }
         public string FirmaVarenummerDisplayText { get; set; }
+        public decimal? PrisPrPakning { get; set; }
+        public decimal? PrisPrEnhed { get; set; }
 
         public Drug(string navn, string varenummer, string firma, string styrke, string detaljerUrl, string pakning)
         {
@@ -26,7 +28,7 @@
 
         public override string? ToString()
         {
-            return "Præperat: " + Navn + " vnr: " + Varenummer;
+            return Navn + " " + Styrke + " vnr: " + Varenummer;
         }
     }
 }
